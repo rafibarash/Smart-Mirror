@@ -16,11 +16,11 @@ const App: React.FC = () => {
           target="_blank"
           rel="noopener noreferrer"
         >
-          Typescript baby
+          Typescript baby part two
         </a>
       </header>
     </div>
   );
-}
+};
 
 export default App;
