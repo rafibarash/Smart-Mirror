@@ -16,7 +16,7 @@ const App: React.FC = () => {
           target="_blank"
           rel="noopener noreferrer"
         >
-          Typescript baby part two
+          We on that CI/CD grind baby
         </a>
       </header>
     </div>
