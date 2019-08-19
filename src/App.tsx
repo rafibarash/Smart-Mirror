@@ -1,25 +1,56 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, useEffect } from 'react';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+
+// Firebase App (the core Firebase SDK) is always required and must be listed first
+import * as firebase from 'firebase/app';
+
+// Import views
+import Index from './views/Index';
+import NoMatch from './views/NoMatch';
+
+// Firebase project configuration
+const firebaseConfig = {
+  apiKey: 'AIzaSyB-M2kI-7eYeT7yuWdMyh3pMABs0MUUGSk',
+  authDomain: 'smartmirror-app.firebaseapp.com',
+  databaseURL: 'https://smartmirror-app.firebaseio.com',
+  projectId: 'smartmirror-app',
+  storageBucket: 'smartmirror-app.appspot.com',
+  messagingSenderId: '321642693367',
+  appId: '1:321642693367:web:fa890eb5b9afe787',
+};
 
 const App: React.FC = () => {
+  const [user, setUser] = useState({});
+
+  useEffect(() => {
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+  }, []);
+
+  useEffect(() => {
+    firebase.auth().onAuthStateChanged(function(user) {
+      if (user) {
+        // User is signed in.
+        setUser(user);
+      } else {
+        // No user is signed in.
+        console.log('no user');
+      }
+    });
+  });
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          We on that CI/CD grind baby
-        </a>
-      </header>
-    </div>
+    <Router>
+      <Switch>
+        <Route
+          exact
+          path="/"
+          render={props => <Index {...props} user={user} setUser={setUser} />}
+        />
+
+        <Route component={NoMatch} />
+      </Switch>
+    </Router>
   );
 };
 
