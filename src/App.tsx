@@ -7,6 +7,7 @@ import * as firebase from 'firebase/app';
 // Import views
 import Index from './views/Index';
 import NoMatch from './views/NoMatch';
+import { Container, Box } from '@material-ui/core';
 
 // Firebase project configuration
 const firebaseConfig = {
@@ -41,15 +42,21 @@ const App: React.FC = () => {
 
   return (
     <Router>
-      <Switch>
-        <Route
-          exact
-          path="/"
-          render={props => <Index {...props} user={user} setUser={setUser} />}
-        />
+      <Container maxWidth="md">
+        <Box my={4}>
+          <Switch>
+            <Route
+              exact
+              path="/"
+              render={props => (
+                <Index {...props} user={user} setUser={setUser} />
+              )}
+            />
 
-        <Route component={NoMatch} />
-      </Switch>
+            <Route component={NoMatch} />
+          </Switch>
+        </Box>
+      </Container>
     </Router>
   );
 };
