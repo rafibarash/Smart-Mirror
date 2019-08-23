@@ -23,7 +23,13 @@ const theme = createMuiTheme({
     htmlFontSize: 10,
     fontSize: 14,
   },
-  overrides: {},
+  overrides: {
+    MuiButton: {
+      root: {
+        fontSize: '1rem',
+      },
+    },
+  },
 });
 
 export default theme;
