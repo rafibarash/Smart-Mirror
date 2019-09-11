@@ -18,7 +18,7 @@ const Index: React.FC<LoginProps> = ({ user, setUser }) => {
         y_pos={0}
       />
       <Widget widget={<TimeWidget />} x_pos={40} y_pos={1} />
-      {/* <Widget widget={<AudioWidget />} x_pos={25} y_pos={15} /> */}
+      <Widget widget={<AudioWidget />} x_pos={25} y_pos={15} />
     </Box>
   );
 };
