@@ -3,6 +3,8 @@ import { Button } from '@material-ui/core';
 
 const AudioWidget: React.FC = () => {
   const [mediaRecorder, setMediaRecorder] = useState<MediaRecorder>();
+  const [mediaChunks, setMediaChunks] = useState<Array<Blob>>([]);
+  const [audiosrc, setAudiosrc] = useState<string>();
 
   const toggleRecording = () => {
     if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
@@ -11,6 +13,7 @@ const AudioWidget: React.FC = () => {
         console.log('stop recording');
         mediaRecorder.stop();
         setMediaRecorder(undefined);
+        setMediaChunks([]);
       } else {
         // start recording
         navigator.mediaDevices
@@ -24,6 +27,20 @@ const AudioWidget: React.FC = () => {
           // Success callback
           .then(function(stream) {
             const recorder = new MediaRecorder(stream);
+
+            recorder.onstop = e => {
+              var blob = new Blob(mediaChunks, {
+                type: 'audio/ogg; codecs=opus',
+              });
+              setAudiosrc(window.URL.createObjectURL(blob));
+            };
+
+            recorder.ondataavailable = function(e) {
+              mediaChunks.push(e.data);
+              console.log('media available: ', e.data);
+              console.log('chunks: ', mediaChunks);
+            };
+
             recorder.start();
             console.log('recorder started');
             setMediaRecorder(recorder);
@@ -44,6 +61,7 @@ const AudioWidget: React.FC = () => {
       <Button variant="contained" onClick={() => toggleRecording()}>
         {mediaRecorder ? 'Stop' : 'Record'}
       </Button>
+      {audiosrc && <audio src={audiosrc} controls />}
     </>
   );
 };
