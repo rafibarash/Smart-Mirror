@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button } from '@material-ui/core';
+import { Button, Box } from '@material-ui/core';
 
 const AudioWidget: React.FC = () => {
   const [mediaRecorder, setMediaRecorder] = useState<MediaRecorder>();
@@ -61,7 +61,7 @@ const AudioWidget: React.FC = () => {
       <Button variant="contained" onClick={() => toggleRecording()}>
         {mediaRecorder ? 'Stop' : 'Record'}
       </Button>
-      {audiosrc && <audio src={audiosrc} controls />}
+      <Box pt={2}>{audiosrc && <audio src={audiosrc} controls />}</Box>
     </>
   );
 };
